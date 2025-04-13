@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsc",
-    "dev": "node --experimental-strip-types --watch app.ts"
+    "dev": "node --experimental-strip-types app.ts"
   },
   "keywords": [],
   "author": "",
@@ -18,7 +18,9 @@
   },
   "dependencies": {
     "@prisma/client": "^6.6.0",
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
+    "cors": "^2.8.5",
     "express": "^5.1.0"
   }
 }

@@ -892,6 +892,7 @@ export namespace Prisma {
   export type MovieMinAggregateOutputType = {
     id: number | null
     title: string | null
+    imageUrl: string | null
     description: string | null
     category: string | null
     releaseDate: Date | null
@@ -904,6 +905,7 @@ export namespace Prisma {
   export type MovieMaxAggregateOutputType = {
     id: number | null
     title: string | null
+    imageUrl: string | null
     description: string | null
     category: string | null
     releaseDate: Date | null
@@ -916,6 +918,7 @@ export namespace Prisma {
   export type MovieCountAggregateOutputType = {
     id: number
     title: number
+    imageUrl: number
     description: number
     category: number
     releaseDate: number
@@ -938,6 +941,7 @@ export namespace Prisma {
   export type MovieMinAggregateInputType = {
     id?: true
     title?: true
+    imageUrl?: true
     description?: true
     category?: true
     releaseDate?: true
@@ -950,6 +954,7 @@ export namespace Prisma {
   export type MovieMaxAggregateInputType = {
     id?: true
     title?: true
+    imageUrl?: true
     description?: true
     category?: true
     releaseDate?: true
@@ -962,6 +967,7 @@ export namespace Prisma {
   export type MovieCountAggregateInputType = {
     id?: true
     title?: true
+    imageUrl?: true
     description?: true
     category?: true
     releaseDate?: true
@@ -1061,6 +1067,7 @@ export namespace Prisma {
   export type MovieGroupByOutputType = {
     id: number
     title: string
+    imageUrl: string
     description: string | null
     category: string
     releaseDate: Date
@@ -1092,6 +1099,7 @@ export namespace Prisma {
   export type MovieSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    imageUrl?: boolean
     description?: boolean
     category?: boolean
     releaseDate?: boolean
@@ -1104,6 +1112,7 @@ export namespace Prisma {
   export type MovieSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    imageUrl?: boolean
     description?: boolean
     category?: boolean
     releaseDate?: boolean
@@ -1116,6 +1125,7 @@ export namespace Prisma {
   export type MovieSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    imageUrl?: boolean
     description?: boolean
     category?: boolean
     releaseDate?: boolean
@@ -1128,6 +1138,7 @@ export namespace Prisma {
   export type MovieSelectScalar = {
     id?: boolean
     title?: boolean
+    imageUrl?: boolean
     description?: boolean
     category?: boolean
     releaseDate?: boolean
@@ -1137,7 +1148,7 @@ export namespace Prisma {
     deletedAt?: boolean
   }
 
-  export type MovieOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "category" | "releaseDate" | "isFavorite" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["movie"]>
+  export type MovieOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "imageUrl" | "description" | "category" | "releaseDate" | "isFavorite" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["movie"]>
 
   export type $MoviePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Movie"
@@ -1145,6 +1156,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       title: string
+      imageUrl: string
       description: string | null
       category: string
       releaseDate: Date
@@ -1577,6 +1589,7 @@ export namespace Prisma {
   interface MovieFieldRefs {
     readonly id: FieldRef<"Movie", 'Int'>
     readonly title: FieldRef<"Movie", 'String'>
+    readonly imageUrl: FieldRef<"Movie", 'String'>
     readonly description: FieldRef<"Movie", 'String'>
     readonly category: FieldRef<"Movie", 'String'>
     readonly releaseDate: FieldRef<"Movie", 'DateTime'>
@@ -1962,6 +1975,7 @@ export namespace Prisma {
   export const MovieScalarFieldEnum: {
     id: 'id',
     title: 'title',
+    imageUrl: 'imageUrl',
     description: 'description',
     category: 'category',
     releaseDate: 'releaseDate',
@@ -2039,6 +2053,7 @@ export namespace Prisma {
     NOT?: MovieWhereInput | MovieWhereInput[]
     id?: IntFilter<"Movie"> | number
     title?: StringFilter<"Movie"> | string
+    imageUrl?: StringFilter<"Movie"> | string
     description?: StringNullableFilter<"Movie"> | string | null
     category?: StringFilter<"Movie"> | string
     releaseDate?: DateTimeFilter<"Movie"> | Date | string
@@ -2051,6 +2066,7 @@ export namespace Prisma {
   export type MovieOrderByWithRelationInput = {
     id?: SortOrder
     title?: SortOrder
+    imageUrl?: SortOrder
     description?: SortOrderInput | SortOrder
     category?: SortOrder
     releaseDate?: SortOrder
@@ -2066,6 +2082,7 @@ export namespace Prisma {
     OR?: MovieWhereInput[]
     NOT?: MovieWhereInput | MovieWhereInput[]
     title?: StringFilter<"Movie"> | string
+    imageUrl?: StringFilter<"Movie"> | string
     description?: StringNullableFilter<"Movie"> | string | null
     category?: StringFilter<"Movie"> | string
     releaseDate?: DateTimeFilter<"Movie"> | Date | string
@@ -2078,6 +2095,7 @@ export namespace Prisma {
   export type MovieOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
+    imageUrl?: SortOrder
     description?: SortOrderInput | SortOrder
     category?: SortOrder
     releaseDate?: SortOrder
@@ -2098,6 +2116,7 @@ export namespace Prisma {
     NOT?: MovieScalarWhereWithAggregatesInput | MovieScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Movie"> | number
     title?: StringWithAggregatesFilter<"Movie"> | string
+    imageUrl?: StringWithAggregatesFilter<"Movie"> | string
     description?: StringNullableWithAggregatesFilter<"Movie"> | string | null
     category?: StringWithAggregatesFilter<"Movie"> | string
     releaseDate?: DateTimeWithAggregatesFilter<"Movie"> | Date | string
@@ -2109,6 +2128,7 @@ export namespace Prisma {
 
   export type MovieCreateInput = {
     title: string
+    imageUrl?: string
     description?: string | null
     category: string
     releaseDate: Date | string
@@ -2121,6 +2141,7 @@ export namespace Prisma {
   export type MovieUncheckedCreateInput = {
     id?: number
     title: string
+    imageUrl?: string
     description?: string | null
     category: string
     releaseDate: Date | string
@@ -2132,6 +2153,7 @@ export namespace Prisma {
 
   export type MovieUpdateInput = {
     title?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     category?: StringFieldUpdateOperationsInput | string
     releaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2144,6 +2166,7 @@ export namespace Prisma {
   export type MovieUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     category?: StringFieldUpdateOperationsInput | string
     releaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2156,6 +2179,7 @@ export namespace Prisma {
   export type MovieCreateManyInput = {
     id?: number
     title: string
+    imageUrl?: string
     description?: string | null
     category: string
     releaseDate: Date | string
@@ -2167,6 +2191,7 @@ export namespace Prisma {
 
   export type MovieUpdateManyMutationInput = {
     title?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     category?: StringFieldUpdateOperationsInput | string
     releaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2179,6 +2204,7 @@ export namespace Prisma {
   export type MovieUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     category?: StringFieldUpdateOperationsInput | string
     releaseDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2262,6 +2288,7 @@ export namespace Prisma {
   export type MovieCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    imageUrl?: SortOrder
     description?: SortOrder
     category?: SortOrder
     releaseDate?: SortOrder
@@ -2278,6 +2305,7 @@ export namespace Prisma {
   export type MovieMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    imageUrl?: SortOrder
     description?: SortOrder
     category?: SortOrder
     releaseDate?: SortOrder
@@ -2290,6 +2318,7 @@ export namespace Prisma {
   export type MovieMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    imageUrl?: SortOrder
     description?: SortOrder
     category?: SortOrder
     releaseDate?: SortOrder

@@ -7,18 +7,18 @@ const router = express.Router();
 
 router.get('/',async (req, res) => {
     const movies=await prisma.movie.findMany()
-        .then((movies) => { 
-            console.log(movies);
-            return movies;
-        }
-        )
+        // .then((movies) => { 
+        //     console.log(movies);
+        //     return movies;
+        // }
+        // )
 
      res.json({ message: "Fetched Movies successfully" , movies });
 });
 
 
 router.post('/',async (req:Request, res:Response) => {
-    const {title,description,category} =req.body;
+    const {title,description,category,imageUrl,releaseDate} =req.body;
 
 
     const errors=[]
@@ -33,6 +33,9 @@ router.post('/',async (req:Request, res:Response) => {
     if(!category){
         errors.push("Category is required")
     }
+    if(!imageUrl){
+        errors.push("Image URL is required")
+    }
     if(errors.length>0){
         res.status(400).json({errors})
         return
@@ -41,12 +44,18 @@ router.post('/',async (req:Request, res:Response) => {
     console.log("Description",description)
     console.log("Category",category)
 
+    let releaseDateValue= new Date();
+    if(releaseDate){
+        releaseDateValue = new Date(releaseDate);
+    }
+
     const movie=await prisma.movie.create({
         data:{
             title,
             description,
             category,
-            releaseDate:new Date('2023-10-01')
+            releaseDate:releaseDateValue,
+            imageUrl
         }
     })
     res.json({ message: "Movie created successfully", movie });
@@ -55,6 +64,7 @@ router.post('/',async (req:Request, res:Response) => {
 
 router.get('/:id',async (req:Request, res:Response) => {
     const { id } = req.params;
+    
     const movie=await prisma.movie.findUnique({
         where:{
             id:Number(id)
@@ -89,6 +99,17 @@ router.put('/:id',async (req:Request, res:Response) => {
         return;
     }
 
+
+    const movieExists = await prisma.movie.findUnique({
+        where: {
+            id: Number(id)
+        }
+    });
+    if (!movieExists) {
+        res.status(404).json({ message: "Movie not found" });
+        return;
+    }
+
     const movie = await prisma.movie.update({
         where: {
             id: Number(id)
@@ -99,6 +120,8 @@ router.put('/:id',async (req:Request, res:Response) => {
             category
         }
     });
+
+   
     res.json({ message: "Movie updated successfully", movie });
 }
 );
@@ -106,6 +129,16 @@ router.put('/:id',async (req:Request, res:Response) => {
 
 router.delete('/:id',async (req:Request, res:Response) => {
     const { id } = req.params;
+
+    const movieExists = await prisma.movie.findUnique({
+        where: {
+            id: Number(id)
+        }
+    });
+    if (!movieExists) {
+        res.status(404).json({ message: "Movie not found" });
+        return;
+    }
     const movie=await prisma.movie.delete({
         where:{
             id:Number(id)

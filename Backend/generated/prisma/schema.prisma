@@ -17,6 +17,7 @@ datasource db {
 model Movie {
   id          Int       @id @default(autoincrement())
   title       String
+  imageUrl    String    @default("https://f.woowoowoowoo.net/resize/250x400/53/f0/53f0f760ace03483b4d873ebfce3a360/53f0f760ace03483b4d873ebfce3a360.jpg")
   description String?
   category    String
   releaseDate DateTime
