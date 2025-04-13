@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "module": "NodeNext",
+        "lib": ["ESNext", "DOM", "ES2015"],
+        "strict": true,
+        "allowImportingTsExtensions": true,
+        "verbatimModuleSyntax": true,
+        "noEmit": true,
+    },
+    "include": ["app.ts"],
+    "exclude": ["node_modules", "dist"],
+
+}
