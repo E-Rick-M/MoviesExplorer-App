@@ -1,6 +1,7 @@
 
-import { useMovieContext, type Movie } from "../store/store";
+import { type Movie } from "../store/store";
 import Button from "./button";
+import { useMovieContext } from "./hooks/usemoviecontext";
 
 const MovieCard = ({ movie }: { movie: Movie }) => {
     const {DeleteMovie} = useMovieContext()

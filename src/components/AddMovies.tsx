@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useActionState } from "react";
 import Input from "./input";
-import { useMovieContext } from "../store/store";
+import { useMovieContext } from "./hooks/usemoviecontext";
 import Button from "./button";
 // type Inputs={
 //     title: string,
@@ -24,156 +24,91 @@ interface InitialState {
 }
 
 export default function AddMovies() {
-    const [formState, setFormState] = useState<InitialState>({
-        errors: [],
-        enteredValues: {
-          title: '',
-          description: '',
-          imageUrl: '',
-          category: '',
-          releaseDate: ''
-        }
-      });
+
     const {addMovie}=useMovieContext()
 
-// const handleSubmit=(prevState:InitialState |null,formData:FormData)=>{
-//     const Data=Object.fromEntries(formData.entries())
-//     console.log(formData)
-//     const { title, description, imageUrl, category, releaseDate } = Data;
-//     const errors:string[] = [];
-//     if (!title) {
-//         errors.push("Title is required");
-//     }
-//     if (!description) {
-//         errors.push("Description is required");
-//     }
-//     if (!imageUrl) {
-//         errors.push("ImageUrl is required");
-//     }
-//     if (!category) {
-//         errors.push("Category is required");
-//     }
-//     if (!releaseDate) {
-//         errors.push("ReleaseDate is required");
-//     }
-//     if (errors.length > 0) {
-//         return {
-//           errors,
-//           enteredValues: {
-//             title: String(title),
-//             description: String(description),
-//             imageUrl: String(imageUrl),
-//             category: String(category),
-//             releaseDate: String(releaseDate)
-//           }
-//         };
-//       }
-//     const movie={
-//         title: String(title),
-//         description: String(description),
-//         imageUrl: String(imageUrl),
-//         category: String(category),
-//         releaseDate: new Date(releaseDate.toString()),
-//         isFavorite: false,
-//         createdAt: new Date(),
-//         updatedAt: new Date(),
-//     }
-
-//     addMovie({...movie})
-
-//     console.log(movie ,'movie Added')
-//     return {errors:[] , enteredValues: {title: '', description:'', imageUrl:'', category:'', releaseDate:''}};
-// }
-
-// const initialState:InitialState={
-//     errors: [],
-//     enteredValues: {
-//         title: '',
-//         description: '',
-//         imageUrl: '',
-//         category: '',
-//         releaseDate: ''
-//     }
-// }
-
-// const [FormState,formAction]=useActionState(handleSubmit,initialState)
-
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
-
-    const { title, description, imageUrl, category, releaseDate } = data;
-    const errors: string[] = [];
-
-    if (!title) errors.push("Title is required");
-    if (!description) errors.push("Description is required");
-    if (!imageUrl) errors.push("ImageUrl is required");
-    if (!category) errors.push("Category is required");
-    if (!releaseDate) errors.push("ReleaseDate is required");
-
+const handleSubmit=(prevState:InitialState |null,formData:FormData)=>{
+    const Data=Object.fromEntries(formData.entries())
+    console.log(formData)
+    const { title, description, imageUrl, category, releaseDate } = Data;
+    const errors:string[] = [];
+    if (!title) {
+        errors.push("Title is required");
+    }
+    if (!description) {
+        errors.push("Description is required");
+    }
+    if (!imageUrl) {
+        errors.push("ImageUrl is required");
+    }
+    if (!category) {
+        errors.push("Category is required");
+    }
+    if (!releaseDate) {
+        errors.push("ReleaseDate is required");
+    }
     if (errors.length > 0) {
-      setFormState({
-        errors,
-        enteredValues: {
-          title: String(title),
-          description: String(description),
-          imageUrl: String(imageUrl),
-          category: String(category),
-          releaseDate: String(releaseDate)
-        }
-      });
-      return;
+        return {
+          errors,
+          enteredValues: {
+            title: String(title),
+            description: String(description),
+            imageUrl: String(imageUrl),
+            category: String(category),
+            releaseDate: String(releaseDate)
+          }
+        };
+      }
+    const movie={
+        title: String(title),
+        description: String(description),
+        imageUrl: String(imageUrl),
+        category: String(category),
+        releaseDate: new Date(releaseDate.toString()),
+        isFavorite: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
     }
 
-    const movie = {
-      title: String(title),
-      description: String(description),
-      imageUrl: String(imageUrl),
-      category: String(category),
-      releaseDate: new Date(releaseDate.toString()),
-      isFavorite: false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+    addMovie({...movie})
 
-    // Optimistic update
-    await addMovie({ ...movie });
+    console.log(movie ,'movie Added')
+    return {errors:[] , enteredValues: {title: '', description:'', imageUrl:'', category:'', releaseDate:''}};
+}
 
-    setFormState({
-      errors: [],
-      enteredValues: {
+const initialState:InitialState={
+    errors: [],
+    enteredValues: {
         title: '',
         description: '',
         imageUrl: '',
         category: '',
         releaseDate: ''
-      }
-    });
-  };
+    }
+}
 
+const [FormState,formAction]=useActionState(handleSubmit,initialState)
 
   return (
-    <form className="bg-white shadow-md rounded-lg p-4 mt-4" onSubmit={handleSubmit}>
+    <form className="bg-white shadow-md rounded-lg p-4 mt-4" action={formAction}>
       <div className="mb-4">
-        <Input type="text" name="title" label="Title" id="title" defaultValue={formState && formState.enteredValues.title } />
+        <Input type="text" name="title" label="Title" id="Title" defaultValue={FormState && FormState.enteredValues.title } />
       </div>
       <div className="mb-4">
-        <Input type="text" name="description" label="Description" id="description" isTextArea defaultValue={formState && formState.enteredValues.description } />
+        <Input type="text" name="description" label="Description" id="Description" isTextArea defaultValue={FormState && FormState.enteredValues.description } />
         {/* <textarea className="border rounded w-full py-2 px-3"></textarea> */}
       </div>
       <div className="mb-4">
-        <Input type="text" name="imageUrl" label="imageUrl" id="imageUrl" defaultValue={formState && formState.enteredValues.imageUrl } />
+        <Input type="text" name="imageUrl" label="imageUrl" id="ImageUrl" defaultValue={FormState && FormState.enteredValues.imageUrl } />
       </div>
       <div className="mb-4">
-        <Input type="text" name="category" label="category" id="category" defaultValue={formState && formState.enteredValues.category }/>
+        <Input type="text" name="category" label="category" id="Category" defaultValue={FormState && FormState.enteredValues.category }/>
       </div>
       <div className="mb-4">
-        <Input type="date" name="releaseDate" label="releaseDate" id="releaseDate" defaultValue={formState && formState.enteredValues.releaseDate }/>
+        <Input type="date" name="releaseDate" label="releaseDate" id="ReleaseDate" defaultValue={FormState && FormState.enteredValues.releaseDate }/>
       </div>
-      {formState?.errors && formState.errors.length > 0 && (
-        <div className="text-red-500 mb-4">{formState.errors.map((error, index) => (
+      {FormState?.errors && FormState.errors.length > 0 && (
+        <div className="text-red-500 mb-4">{FormState.errors.map((error, index) => (
           <p key={index}>{error}</p>
         ))}</div>
         )}

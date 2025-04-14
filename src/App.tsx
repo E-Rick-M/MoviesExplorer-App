@@ -3,8 +3,9 @@
 import './App.css'
 import AddMovies from './components/AddMovies';
 import Header from './components/header'
+import { useMovieContext } from './components/hooks/usemoviecontext';
 import MovieCard from './components/Movies';
-import { useMovieContext} from './store/store'
+
 // import MovieCard from './components/movieCard'
 function App() {
 

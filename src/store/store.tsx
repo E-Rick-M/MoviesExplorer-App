@@ -1,4 +1,5 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { movieContext } from "../components/hooks/usemoviecontext";
 
 export type Movie = {
     id: number,
@@ -10,7 +11,7 @@ export type Movie = {
     isFavorite :boolean,
     createdAt :Date,
     updatedAt: Date,
-    deleteAt?: Date | null,
+    deletedAt?: Date | null,
 };
 
 interface AddMovie{
@@ -28,25 +29,15 @@ type MovieState = {
     movies: Movie[] | [],
     loading: boolean,
     error: string | null,
-    setMovies: React.Dispatch<React.SetStateAction<Movie[]>>
 }
 
-type MoviesContextValue=MovieState & {
+export type MoviesContextValue=MovieState & {
   addMovie: (movie: AddMovie) => void,
   updateMovie: (id: number, updatedMovie: Partial<Movie>) => void,
   DeleteMovie: (id: number) => void
 }
 
- const movieContext = createContext<MoviesContextValue | null>(null);
 
-
-export const useMovieContext = () => {
-  const context = useContext(movieContext);
-  if (!context ) {
-    throw new Error("useMovieContext must be used within a MovieProvider");
-  }
-  return context;
-}
 
 
 export const MovieProvider =({ children }: { children: React.ReactNode }) => {
@@ -66,9 +57,11 @@ export const MovieProvider =({ children }: { children: React.ReactNode }) => {
         }
          
 
-        const data = await response.json();
-        console.log("Fetched Movies:", data.movies);
-        setMovies(data.movies as Movie[]);
+        const {data,message}= await response.json();
+        // JSON.parse(data)
+        console.log("Fetched Movies:", data);
+        console.log("Fetched Movies message:", message);
+        setMovies(data as Movie[]);
       } catch (error) {
         console.error("Error fetching movies:", error);
         setError("Failed to fetch movies");
@@ -99,16 +92,17 @@ export const MovieProvider =({ children }: { children: React.ReactNode }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(movie),
+          body: JSON.stringify({...movie}),
         });
         if (!response.ok) {
           throw new Error("Failed to add movie");
         }
-        const data = await response.json();
+        const {data : movieAdded,message} = await response.json();
 
-        setMovies((prevMovies)=>prevMovies.map(movie=>movie.id===tid?data.movies:movie))
+        setMovies((prevMovies)=>prevMovies.map(movie=>movie.id===tid?movieAdded:movie))
 
-        console.log("Added Movie:", data.movie);
+        console.log("Response movieAdded-Frontend:", movieAdded);
+        console.log("Response message-Frontend:", message);
 
       } catch (error) {
         setMovies((prevMovies)=>prevMovies.filter(movie=>movie.id !==tid))
@@ -127,8 +121,8 @@ export const MovieProvider =({ children }: { children: React.ReactNode }) => {
         if (!response.ok) {
           throw new Error("Failed to update movie");
         }
-        const data = await response.json();
-        console.log("Updated Movie:", data.movie);
+        const {data} = await response.json();
+        console.log("Updated Movie:", data);
         // setMovies((prevMovies) =>
         //   prevMovies.map((movie) => (movie.id === id ? data.movie : movie))
         // );
@@ -138,6 +132,7 @@ export const MovieProvider =({ children }: { children: React.ReactNode }) => {
     }
     ,
     DeleteMovie: async (id: number) => {
+      setMovies((prevMovies) =>prevMovies.filter((movie) => movie.id !== id));
       try {
         const response = await fetch(`http://localhost:3000/movies/${id}`, {
           method: "DELETE",
@@ -150,9 +145,13 @@ export const MovieProvider =({ children }: { children: React.ReactNode }) => {
         // );
       } catch (error) {
         console.error("Error deleting movie:", error);
+        // Rollback the state change in case of an error
+        setMovies((prevMovies) => [
+          ...prevMovies,
+          movies.find((movie) => movie.id === id)!,
+        ]);
       }
     },
-    setMovies
   };
   return (
  
