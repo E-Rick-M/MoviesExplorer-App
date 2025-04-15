@@ -76,16 +76,6 @@ export const MovieProvider =({ children }: { children: React.ReactNode }) => {
     loading,
     error,
     addMovie: async (movie: AddMovie) => {
-      const tid=Math.floor(Math.random()*100000)
-
-      const newMovie = {
-        ...movie,
-        id: tid,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-             
-        setMovies((prevMovies) => [...prevMovies,newMovie]);
       try {
         const response = await fetch("http://localhost:3000/movies", {
           method: "POST",
@@ -97,15 +87,11 @@ export const MovieProvider =({ children }: { children: React.ReactNode }) => {
         if (!response.ok) {
           throw new Error("Failed to add movie");
         }
-        const {data : movieAdded,message} = await response.json();
-
-        setMovies((prevMovies)=>prevMovies.map(movie=>movie.id===tid?movieAdded:movie))
-
+        const {data: movieAdded, message} = await response.json();
+        setMovies((prevMovies) => [...prevMovies, movieAdded]);
         console.log("Response movieAdded-Frontend:", movieAdded);
         console.log("Response message-Frontend:", message);
-
       } catch (error) {
-        setMovies((prevMovies)=>prevMovies.filter(movie=>movie.id !==tid))
         console.error("Error adding movie:", error);
       }
     },
