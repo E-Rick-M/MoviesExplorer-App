@@ -21,26 +21,30 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
         console.log("Edit movie:", movie.id);
     };
   return (
-    <div className="flex flex-col justify-between items-center bg-gray-600 shadow-md rounded-lgp-1 p-4 w-4/4">
+    <div className="flex flex-col justify-between items-center bg-gray-600 p-2 shadow-md rounded-lgp-1 w-4/4 ">
       {/* <h3 className="text-3xl font-semibold text-black text-center">{movie.title}</h3> */}
-      <div className="h-75 rounded-lg mb-4 w-full ">
+      <div className=" rounded-lg mb-4 w-full ">
         <img
           src={movie.imageUrl}
           alt={movie.title}
-          className="h-full w-full object-cover rounded-lg"
+          className=" w-full rounded-lg "
+
         />
       </div>
-      <div className="flex h-full flex-col justify-between items-center text-center p-2 w-full">
+      <div className="flex h-full flex-col justify-between items-center text-center p-2 w-full ">
         <div className="flex flex-col justify-around h-full items-center p-1">
           <h3 className="text-2xl font-semibold text-white">{movie.title}</h3>
-          <p className="mt-2 text-lg text-gray-300 h-full">
+          <div className="max-h-48  p-2 mt-2  overflow-y-auto">
+             <p className="mt-2 text-lg text-gray-300 h-full">
             {movie.description}
           </p>
+          </div>
+         
         </div>
         <div className="items-end">
-          <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded">
+          {/* <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded">
             View Details
-          </button>
+          </button> */}
         </div>
       </div>
 
